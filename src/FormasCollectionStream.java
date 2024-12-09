@@ -11,6 +11,7 @@ import java.util.TreeMap;
  * MIT License
  *
  * Copyright(c) 2023-4 João Caram <caram@pucminas.br>
+ * Copyright(c) 2024-12 Jonathan Sena <jonathan.sena@pucminas.br>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -287,6 +288,7 @@ public class FormasCollectionStream {
                                     .reduce((f1, f2) -> f1.concat("\n" + f2))
                                     .orElse("Vazio"));
                 }
+                
                 case 15 -> {
                     System.out.print("Qual o tipo da forma geométrica? ");
                     String forma = teclado.nextLine().toLowerCase();
@@ -300,6 +302,7 @@ public class FormasCollectionStream {
                                     .orElse("Vazio"));
 
                 }
+
                 case 16 -> {
                     double somaAreas = listaFormas.stream()
                             .filter(fg -> fg.area() > 2500)
@@ -307,6 +310,7 @@ public class FormasCollectionStream {
                             .sum();
                     System.out.println("Áreas somados: " + somaAreas);
                 }
+
                 case 17 -> {
                     double mediaAreas = listaFormas.stream()
                             .filter(fg -> fg.area() > 2500)
@@ -314,6 +318,7 @@ public class FormasCollectionStream {
                             .average().orElse(0.0);
                     System.out.println("Áreas somados: " + mediaAreas);
                 }
+
                 case 18 -> {
                     double mediaConjunto = listaFormas.stream()
                     .mapToDouble(fg -> fg.perimetro())
@@ -325,17 +330,20 @@ public class FormasCollectionStream {
 
                     System.out.println("Quantidade de formas com o perimetro maior que a média: " + quantFormas);
                 }
+
                 case 19 -> {
                     System.out.println(listaFormas.stream()
                                        .max(compPer)
                                        .orElse(null));
                 }
+
                 case 20 -> {
                     System.out.println(listaFormas.stream()
                                        .filter(fg -> fg instanceof Quadrado)
                                        .max(compArea)
                                        .orElse(null));
                 }
+
                 case 21 -> {
                     System.out.println("A soma de todos os perímetros dos círculos é igual a " + 
                                        listaFormas.stream()
@@ -343,6 +351,7 @@ public class FormasCollectionStream {
                                        .mapToDouble(fg -> fg.perimetro())
                                        .sum());  
                 }
+
                 case 22 -> {
                     System.out.println("Qual o minimo de área?");
                     double minArea = Double.parseDouble(teclado.nextLine());
@@ -353,6 +362,7 @@ public class FormasCollectionStream {
                     .reduce((f1, f2) -> f1.concat("\n" + f2))
                     .orElse("Vazio"));
                 }
+
                 case 23 -> {
                     System.out.println("Qual o minimo de área?");
                     double minArea = Double.parseDouble(teclado.nextLine());
@@ -364,6 +374,7 @@ public class FormasCollectionStream {
                     .reduce((f1, f2) -> f1.concat("\n" + f2))
                     .orElse("Vazio"));
                 }
+
                 case 24 -> {
                     System.out.println("Qual a forma?");
                     String forma = teclado.nextLine().toLowerCase();
