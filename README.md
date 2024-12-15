@@ -2,7 +2,6 @@
 
 Projeto referente à terceira prova de **Programação Modular**. Este repositório implementa métodos utilizando **Streams** para manipulação de dados relacionados a formas geométricas. Os métodos atendem a requisitos específicos propostos na avaliação, facilitando cálculos e exibição das informações.
 
----
 
 ## **Descrição do Projeto**
 
@@ -17,7 +16,6 @@ João está aprendendo geometria plana, mas deseja automatizar os cálculos para
 - Triângulos Retângulos
 - Círculos
 
----
 
 ## **Funcionalidades Implementadas**
 
@@ -34,7 +32,6 @@ As funcionalidades abaixo são realizadas utilizando **coleções** e **Streams*
 9. **Imprimir a descrição do retângulo com a menor área maior que um valor mínimo definido pelo usuário.**  
 10. **Imprimir a descrição da forma com a menor área, sendo o tipo da forma definido pelo usuário.**
 
----
 
 ## **Tecnologias Utilizadas**
 - **Linguagem:** Java  
@@ -44,7 +41,6 @@ As funcionalidades abaixo são realizadas utilizando **coleções** e **Streams*
   - Streams e Expressões Lambda  
   - Manipulação de Coleções  
 
----
 
 ## **Como Executar o Projeto**
 1. Clone o repositório:
@@ -54,14 +50,12 @@ As funcionalidades abaixo são realizadas utilizando **coleções** e **Streams*
 2. Importe o projeto em sua IDE Java favorita (Eclipse, IntelliJ, etc.).
 3. Compile e execute os métodos do sistema para atender aos requisitos propostos.
 
----
 
 ## **Próximos Passos**
 - Implementar novas formas geométricas.  
 - Adicionar testes unitários para validação dos cálculos.  
 - Melhorar a interface com o usuário.  
 
----
 
 **Desenvolvido por:**  
 > João e Equipe de Programação Modular  
