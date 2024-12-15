@@ -49,6 +49,112 @@ public class FormasCollectionStream {
         teclado.nextLine();
     }
 
+    static int exibirMenu(){
+        System.out.println("\nSelecione uma opção:");
+        System.out.println("1 - Somar áreas maiores que 2500");
+        System.out.println("2 - Calcular média das áreas maiores que 2500");
+        System.out.println("3 - Contar formas com perímetro acima da média");
+        System.out.println("4 - Encontrar forma com maior perímetro");
+        System.out.println("5 - Encontrar maior área entre quadrados");
+        System.out.println("6 - Somar perímetros de círculos");
+        System.out.println("7 - Listar formas com área maior que valor mínimo");
+        System.out.println("8 - Listar retângulos com área maior que valor mínimo");
+        System.out.println("9 - Encontrar menor área de uma forma específica");
+        System.out.println("0 - Sair");
+
+        System.out.print("Digite sua opção: ");
+        return Integer.parseInt(teclado.nextLine());
+    }
+
+    static void menuRevisao(Comparator<FormaGeometrica> compArea, LinkedList<FormaGeometrica> listaFormas) {
+        int opcao = exibirMenu();
+        switch (opcao) {
+            case 1 -> {
+                double somaAreas = listaFormas.stream()
+                        .filter(fg -> fg.area() > 2500)
+                        .mapToDouble(fg -> fg.area())
+                        .sum();
+                System.out.println("Áreas somados: " + somaAreas);
+            }
+        
+            case 2 -> {
+                double mediaAreas = listaFormas.stream()
+                        .filter(fg -> fg.area() > 2500)
+                        .mapToDouble(fg -> fg.area())
+                        .average().orElse(0.0);
+                System.out.println("Áreas médias: " + mediaAreas);
+            }
+        
+            case 3 -> {
+                double mediaConjunto = listaFormas.stream()
+                        .mapToDouble(fg -> fg.perimetro())
+                        .average().orElse(0.0);
+        
+                long quantFormas = listaFormas.stream()
+                        .filter(fg -> fg.perimetro() > mediaConjunto)
+                        .count();
+        
+                System.out.println("Quantidade de formas com o perímetro maior que a média: " + quantFormas);
+            }
+        
+            case 4 -> {
+                System.out.println(listaFormas.stream()
+                        .max((f1, f2) -> f1.perimetro() > f2.perimetro() ? 1 : -1)
+                        .orElse(null));
+            }
+        
+            case 5 -> {
+                System.out.println(listaFormas.stream()
+                        .filter(fg -> fg instanceof Quadrado)
+                        .max(compArea)
+                        .orElse(null));
+            }
+        
+            case 6 -> {
+                System.out.println("A soma de todos os perímetros dos círculos é igual a " +
+                        listaFormas.stream()
+                                .filter(fg -> fg instanceof Circulo)
+                                .mapToDouble(fg -> fg.perimetro())
+                                .sum());
+            }
+        
+            case 7 -> {
+                System.out.println("Qual o mínimo de área?");
+                double minArea = Double.parseDouble(teclado.nextLine());
+        
+                System.out.println(listaFormas.stream()
+                        .filter(fg -> fg.area() > minArea)
+                        .map(Object::toString)
+                        .reduce((f1, f2) -> f1.concat("\n" + f2))
+                        .orElse("Vazio"));
+            }
+        
+            case 8 -> {
+                System.out.println("Qual o mínimo de área?");
+                double minArea = Double.parseDouble(teclado.nextLine());
+        
+                System.out.println(listaFormas.stream()
+                        .filter(fg -> fg.area() > minArea)
+                        .filter(fg -> fg instanceof Retangulo)
+                        .map(Object::toString)
+                        .reduce((f1, f2) -> f1.concat("\n" + f2))
+                        .orElse("Vazio"));
+            }
+        
+            case 9 -> {
+                System.out.println("Qual a forma?");
+                String forma = teclado.nextLine().toLowerCase();
+        
+                System.out.println(listaFormas.stream()
+                        .filter(fg -> fg.getClass().getName().equalsIgnoreCase(forma))
+                        .min(compArea)
+                        .orElse(null));
+            }
+            default -> opcao = 0;
+        }
+        }
+        
+
     static int menuPrincipal() {
         limparTela();
         String linha = "=========================";
@@ -76,6 +182,8 @@ public class FormasCollectionStream {
         System.out.println("MAP / REDUCE ");
         System.out.println("14 - Mostrar conjunto ordenado ");
         System.out.println("15 - Mostrar subconjunto ordenado por área");
+        System.out.println(linha);
+        System.out.println("16 - Menu relatórios de revisão");
         System.out.println(linha);
 
         System.out.println("0 - Sair");
@@ -123,7 +231,6 @@ public class FormasCollectionStream {
     public static void main(final String[] args) {
         Comparator<FormaGeometrica> compArea = (f1, f2) -> f1.area() > f2.area() ? 1 : -1;
         Comparator<FormaGeometrica> compDesc = (f1, f2) -> f1.toString().compareTo(f2.toString());
-        Comparator<FormaGeometrica> compPer = (f1, f2) -> f1.perimetro() > f2.perimetro() ? 1 : -1;
 
         LinkedList<FormaGeometrica> listaFormas = new LinkedList<>();
         TreeMap<Double, FormaGeometrica> arvore = new TreeMap<>();
@@ -162,23 +269,23 @@ public class FormasCollectionStream {
 
                 case 3 -> {
                     limparTela();
-                    // final String linha = "---------------------------";
+                    final String linha = "---------------------------";
                     System.out.println("LISTA:");
                     for (FormaGeometrica formaGeometrica : listaFormas) {
                         System.out.println(formaGeometrica);
                     }
-                    // pausa();
-                    // System.out.println(linha);
-                    // System.out.println("HASH MAP:");
-                    // for (FormaGeometrica formaGeometrica : hashFiguras.values()) {
-                    //     System.out.println(formaGeometrica);
-                    // }
-                    // pausa();
-                    // System.out.println(linha);
-                    // System.out.println("ÁRVORE:");
-                    // for (FormaGeometrica formaGeometrica : arvore.values()) {
-                    //     System.out.println(formaGeometrica);
-                    // }
+                    pausa();
+                    System.out.println(linha);
+                    System.out.println("HASH MAP:");
+                    for (FormaGeometrica formaGeometrica : hashFiguras.values()) {
+                        System.out.println(formaGeometrica);
+                    }
+                    pausa();
+                    System.out.println(linha);
+                    System.out.println("ÁRVORE:");
+                    for (FormaGeometrica formaGeometrica : arvore.values()) {
+                        System.out.println(formaGeometrica);
+                    }
                 }
                 case 4 -> {
                     System.out.print("Identificador/posição do elemento: ");
@@ -304,86 +411,9 @@ public class FormasCollectionStream {
                 }
 
                 case 16 -> {
-                    double somaAreas = listaFormas.stream()
-                            .filter(fg -> fg.area() > 2500)
-                            .mapToDouble(fg -> fg.area())
-                            .sum();
-                    System.out.println("Áreas somados: " + somaAreas);
+                    menuRevisao(compArea, listaFormas);
                 }
 
-                case 17 -> {
-                    double mediaAreas = listaFormas.stream()
-                            .filter(fg -> fg.area() > 2500)
-                            .mapToDouble(fg -> fg.area())
-                            .average().orElse(0.0);
-                    System.out.println("Áreas somados: " + mediaAreas);
-                }
-
-                case 18 -> {
-                    double mediaConjunto = listaFormas.stream()
-                    .mapToDouble(fg -> fg.perimetro())
-                    .average().orElse(0.0);
-
-                    long quantFormas = listaFormas.stream()
-                    .filter(fg -> fg.perimetro() > mediaConjunto)
-                    .count();
-
-                    System.out.println("Quantidade de formas com o perimetro maior que a média: " + quantFormas);
-                }
-
-                case 19 -> {
-                    System.out.println(listaFormas.stream()
-                                       .max(compPer)
-                                       .orElse(null));
-                }
-
-                case 20 -> {
-                    System.out.println(listaFormas.stream()
-                                       .filter(fg -> fg instanceof Quadrado)
-                                       .max(compArea)
-                                       .orElse(null));
-                }
-
-                case 21 -> {
-                    System.out.println("A soma de todos os perímetros dos círculos é igual a " + 
-                                       listaFormas.stream()
-                                       .filter(fg -> fg instanceof Circulo)
-                                       .mapToDouble(fg -> fg.perimetro())
-                                       .sum());  
-                }
-
-                case 22 -> {
-                    System.out.println("Qual o minimo de área?");
-                    double minArea = Double.parseDouble(teclado.nextLine());
-
-                    System.out.println(listaFormas.stream()
-                    .filter(fg -> fg.area() > minArea)
-                    .map(Object::toString)
-                    .reduce((f1, f2) -> f1.concat("\n" + f2))
-                    .orElse("Vazio"));
-                }
-
-                case 23 -> {
-                    System.out.println("Qual o minimo de área?");
-                    double minArea = Double.parseDouble(teclado.nextLine());
-
-                    System.out.println(listaFormas.stream()
-                    .filter(fg -> fg.area() > minArea)
-                    .filter(fg -> fg instanceof Retangulo)
-                    .map(Object::toString)
-                    .reduce((f1, f2) -> f1.concat("\n" + f2))
-                    .orElse("Vazio"));
-                }
-
-                case 24 -> {
-                    System.out.println("Qual a forma?");
-                    String forma = teclado.nextLine().toLowerCase();
-
-                    System.out.println(listaFormas.stream()
-                                       .filter(fg -> fg.getClass().getName().equalsIgnoreCase(forma))
-                                       .min(compArea)
-                                       .orElse(null));
-                }
                 default -> opcao = 1;
             }
             pausa();
